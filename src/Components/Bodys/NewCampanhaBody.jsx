@@ -10,17 +10,28 @@ import DateTimePicker from 'react-datetime-picker';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import PageFooter from '../PageFooter'
 import EditIcon from '@mui/icons-material/Edit';
+import { useParams } from 'react-router-dom'
+import listaExemplo from '../../Assets/listaexemplo.xlsx'
 
 const NewCampanhaBody = () => {
 
+    const [nome, setNome] = useState();
+    const [file, setFile] = useState()
+    const { data } = useParams();
+    const { userID } = useParams();
     const navigate = useNavigate();
-    const [value, onChange] = useState(new Date());
+    const [dataE, setDataE] = useState('');
+    const [value, setValue] = useState(new Date());
     const definirdata = () => { 
       if((document.getElementById('datepiker').classList.value) === 'col-md-6 datepiker'){
         document.getElementById('datepiker').classList.add("ativado");
       }else{
         document.getElementById('datepiker').classList.remove("ativado");
       }
+    }
+
+    function handleChange(event) {
+      setFile(event.target.files[0])
     }
 
     const irConfig = () => {
@@ -85,6 +96,119 @@ const NewCampanhaBody = () => {
       document.getElementById('menssage').classList.add("btn-light");
     }
 
+
+    console.log(value)
+const result1 = value.toString().slice(17, 24)
+console.log(result1)
+const dia = value.toString().slice(8, 10);
+const mes = value.toString().slice(4, 7);
+const ano = value.toString().slice(11, 15);
+const hora = value.toString().slice(15, 24);
+
+if(mes==='Jan'){
+  console.log("mes 1")
+  const mes2='01';
+  const teste = ano+'-'+mes2+'-'+dia+hora;
+console.log(teste)
+}else if(mes==='Feb'){
+  console.log("mes 2")
+  const mes2='02';
+  const teste = ano+'-'+mes2+'-'+dia+hora;
+console.log(teste)
+}else if(mes==='Mar'){
+  console.log("mes 3")
+  const mes2='03';
+  const teste = ano+'-'+mes2+'-'+dia+hora;
+console.log(teste)
+}else if(mes==='Apr'){
+  console.log("mes 4")
+  const mes2='04';
+  const teste = ano+'-'+mes2+'-'+dia+hora;
+console.log(teste)
+}else if(mes==='May'){
+  console.log("mes 5")
+  const mes2='05';
+  const teste = ano+'-'+mes2+'-'+dia+hora;
+console.log(teste)
+}else if(mes==='Jun'){
+  console.log("mes 6")
+  const mes2='06';
+  const teste = ano+'-'+mes2+'-'+dia+hora;
+console.log(teste)
+}else if(mes==='Jul'){
+  console.log("mes 7")
+  const mes2='07';
+  const teste = ano+'-'+mes2+'-'+dia+hora;
+console.log(teste)
+}else if(mes==='Aug'){
+  console.log("mes 8")
+  const mes2='08';
+  const teste = ano+'-'+mes2+'-'+dia+hora;
+console.log(teste)
+}else if(mes==='Sep'){
+  console.log("mes 9")
+  const mes2='09';
+  const teste = ano+'-'+mes2+'-'+dia+hora;
+console.log(teste)
+}else if(mes==='Oct'){
+  console.log("mes 10")
+  const mes2='10';
+  const teste = ano+'-'+mes2+'-'+dia+hora;
+console.log(teste)
+}else if(mes==='Nov'){
+  console.log("mes 11")
+  const mes2='11';
+  const teste = ano+'-'+mes2+'-'+dia+hora;
+console.log(teste)
+}else if(mes==='Dec'){
+  console.log("mes 12")
+  const mes2='12';
+  const teste = ano+'-'+mes2+'-'+dia+hora;
+console.log(teste)
+}
+
+
+
+
+
+
+
+    const Criarcampanha = () => {
+
+      const myHeaders = new Headers();
+      myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlcmljb2Nlc2FyQHdlYmNrLmNvbS5iciIsImlkQ2xpZW50IjoiYTdjNGFkOWItZGVjZS00YmIwLTlhYzktOTMwNzc2Y2JmNGRhIiwiY3JlYXRlZCI6MTY1OTYzNDA4OTM5OSwicm9sZXMiOlsiUk9MRV9BUEkiLCJST0xFX0RBU0hCT0FSRCIsIlJPTEVfREFTSEJPQVJEX0dST1VQUyIsIlJPTEVfR1JPVVBTIiwiUk9MRV9JTlRFR1JBVElPTl9VU0VSIiwiUk9MRV9UUklBTCIsIlJPTEVfVVNFUlMiLCJST0xFX1dFQkhPT0siXSwiaWQiOjMwMCwiZXhwIjoxNjkxMTcwMDg5fQ.JO3G1S4V7rpYey6i262UdbD1zb7nyacckZMMpmyC6Y4iA9vDmiFwpWTGiu6P0NPwLmO5--qdCsedsCQsEfVdvQ");
+
+      const formdata = new FormData();
+      formdata.append("name", nome);
+      formdata.append("botname", "\"\"");
+      formdata.append("sendTemplate", "Olá, *#{name}*.\\\\n\\\\nMensagem de campanha teste para implementação de integração Moorse .\\\\n\\\\nConfirme o número de CNPJ da empresa teste *#{cnpj}*.");
+      formdata.append("finishTemplate", "");
+      formdata.append("errorTemplate", "");
+      formdata.append("integrationType", "WHATSAPP");
+      formdata.append("integrationId", "f27f1202-02fd-431a-8ce1-7b82cfd8bb85");
+      formdata.append("startDate");
+      formdata.append("mailing", file);
+      formdata.append("type", "NOTIFICATION");
+      formdata.append("mailingLayout", "name;cnpj");
+      formdata.append("clientId", userID);
+
+      const requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: formdata,
+        redirect: 'follow'
+      };
+
+      fetch("https://api-front.moorse.io/campaign-service/api/v1/campaigns", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+
+
+          }
+
+
+
   return (
     <div className="page-body-wrapper sidebar-icon">
       <header className="main-nav">
@@ -112,7 +236,7 @@ const NewCampanhaBody = () => {
                   </li>
                   <li className="dropdown">
                     <a className='nav-link menu-title'
-                    onClick={() => navigate(`/mezap`)}
+                    onClick={() => navigate(`/mezap/home/${data}`)}
                     >
                         <i><HomeIcon/></i>
                         <span>Home</span>
@@ -120,23 +244,23 @@ const NewCampanhaBody = () => {
                   </li>
                   <li className="dropdown">
                   <a className="nav-link menu-title active"
-                  onClick={() => navigate(`/mezap/campanhas`)}
+                  onClick={() => navigate(`/mezap/campanhas/${data}`)}
                   >
                         <i><BusinessCenterIcon/></i>
                         <span>Campanhas</span>
                     </a>
                     <ul className="nav-submenu menu-content">
                       <li><a className='lista'
-                      onClick={() => navigate(`/mezap/campanhas`)}
+                      onClick={() => navigate(`/mezap/campanhas/${data}`)}
                       >Minhas Campanhas</a></li>
                       <li><a className='lista active'
-                      onClick={() => navigate(`/mezap/campanhas/criar`)}
+                      onClick={() => navigate(`/mezap/campanhas/criar/${data}/${userID}`)}
                       >Nova Campanha</a></li>
                     </ul>
                   </li>
                   <li className="dropdown">
                   <a className="nav-link menu-title"
-                  onClick={() => navigate(`/mezap/sett`)}
+                  onClick={() => navigate(`/mezap/sett/${data}`)}
                   >
                         <i><SettingsIcon/></i>
                         <span>Configurações</span>
@@ -157,14 +281,14 @@ const NewCampanhaBody = () => {
                   <ul className="breadcrumb">
                     <li className="breadcrumb-item"><a
                     className='listabr active' 
-                    onClick={() => navigate(`/mezap`)}
+                    onClick={() => navigate(`/mezap/home${data}`)}
                     >Home</a></li>
                     <li className="breadcrumb-item active"><a
-                    onClick={() => navigate(`/mezap/campanhas`)}
+                    onClick={() => navigate(`/mezap/campanhas/${data}`)}
                     className='listabr'
                     >campanhas</a></li>
                     <li className="breadcrumb-item active"><a
-                     onClick={() => navigate(`/mezap/campanhas/criar`)}
+                     onClick={() => navigate(`/mezap/campanhas/criar/${data}/${userID}`)}
                      className='listabr'
                     >nova campanha</a></li>
                   </ul>
@@ -172,16 +296,16 @@ const NewCampanhaBody = () => {
               </div>
             </div>
         </div>
-        <div class="abas"></div>
-        <div class="container-fluid">
-            <div class="row">
-              <div class="col-sm-12">
-                <div class="card">
-                  <div class="stepwizard">
-                    <div class="stepwizard-row setup-panel">
-                      <div class="stepwizard-step"><a class="btn btn-primary flex1" id='configura' onClick={irConfig}><SettingsIcon/> Configurações</a></div>
-                      <div class="stepwizard-step"><a class="btn btn-light flex1" id='menssage' onClick={irMessage}><SendToMobileIcon/> Mensagem</a></div>
-                      <div class="stepwizard-step"><a class="btn btn-light flex1" id='ctt' onClick={irContato}><ContactsIcon/> Contatos</a></div>
+        <div className="abas"></div>
+        <div className="container-fluid">
+            <div className="row">
+              <div className="col-sm-12">
+                <div className="card">
+                  <div className="stepwizard">
+                    <div className="stepwizard-row setup-panel">
+                      <div className="stepwizard-step"><a className="btn btn-primary flex1" id='configura' onClick={irConfig}><SettingsIcon/> Configurações</a></div>
+                      <div className="stepwizard-step"><a className="btn btn-light flex1" id='menssage' onClick={irMessage}><SendToMobileIcon/> Mensagem</a></div>
+                      <div className="stepwizard-step"><a className="btn btn-light flex1" id='ctt' onClick={irContato}><ContactsIcon/> Contatos</a></div>
                     </div>
                   </div>
 
@@ -189,12 +313,14 @@ const NewCampanhaBody = () => {
 
 
 
-                  <div class="card-body none ativo" id='config'>
+                  <div className="card-body none ativo" id='config'>
                     <label className="form-label">Nome da sua campanha</label>
                     <input type='text' 
-                    name='lista' 
-                    id='lista'
+                    name='nome' 
+                    id='nome'
                     className="form-control"
+                    value={nome}
+                    onChange={(e)=> setNome(e.target.value)}
                     />
                     <br/>
                     <div className='row'>
@@ -212,7 +338,8 @@ const NewCampanhaBody = () => {
                       </div>
                       <div className='col-md-6 datepiker' id='datepiker'>
                         <label className='form-label checkbox'>Selecione a data de início</label>
-                        <DateTimePicker onChange={onChange} value={value} />
+                        <DateTimePicker 
+                        onChange={setValue} value={value} />
                       </div>
                     </div>
                     <br/>
@@ -230,31 +357,28 @@ const NewCampanhaBody = () => {
                     className="form-control"
                     />
                     <br/>
-                    <label className="form-label">Webhook</label>
-                    <input type='text' 
-                    name='lista' 
-                    id='lista'
-                    className="form-control"
-                    />
-                    <br/>
                   <div className='row'>
                     <div className='col-md-6'>
                       <label className="form-label">Envie a lista</label>
                       <input type='file' 
-                      name='lista' 
-                      id='lista'
                       className="form-control"
+                      onChange={handleChange}
                       />
                     </div>
                     <div className='col-md-6'>
                       <div className='alinhar22'>
                         <label className="form-label">Exemplo de Lista</label>
-                        <a className="nav-btn2" ><span><FileDownloadIcon/> BAIXAR EXEMPLO</span></a>
+                        <a className="nav-btn2"
+                        href={listaExemplo}
+                        download
+                        ><span><FileDownloadIcon/> BAIXAR EXEMPLO</span></a>
                       </div>
                     </div>
       
-                    <div className='salvarcampanha'>
-                      <a className="nav-btn2" ><span>Salvar Campanha</span></a>
+                    <div className='salconstcampanha'>
+                      <a className="nav-btn2" 
+                      onClick={Criarcampanha}
+                      ><span>Salconst Campanha</span></a>
                     </div>
                   </div>
                   </div>
@@ -264,7 +388,7 @@ const NewCampanhaBody = () => {
 
 
 
-                  <div class="card-body none" id='message'>
+                  <div className="card-body none" id='message'>
                     <div className='mensagem'>
                       <h6>Mensagem para iniciar campanha</h6>
                       <a className="nav-btn2" ><span>Editar</span></a>
@@ -281,8 +405,8 @@ const NewCampanhaBody = () => {
                     </div>
                     <br/>
                     <br/>
-                    <div className='salvarcampanha'>
-                      <a className="nav-btn2" ><span>Salvar Alterações</span></a>
+                    <div className='salconstcampanha'>
+                      <a className="nav-btn2" ><span>Salconst Alterações</span></a>
                     </div>
                   </div>
 
@@ -291,8 +415,8 @@ const NewCampanhaBody = () => {
 
 
 
-                  <div class="card-body none" id='contato'>
-                    <div className='salvarcampanha2'>
+                  <div className="card-body none" id='contato'>
+                    <div className='salconstcampanha2'>
                       <a className="nav-btn2" ><span>Cadastrar contato</span></a>
                     </div>
                     <div className="table-responsive">

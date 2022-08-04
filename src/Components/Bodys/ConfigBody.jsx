@@ -12,9 +12,11 @@ import BusinessIcon from '@mui/icons-material/Business';
 import PersonPinIcon from '@mui/icons-material/PersonPin';
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import { useParams } from 'react-router-dom'
 
 const ConfigBody = () => {
 
+    const { data } = useParams();
     const navigate = useNavigate();
     const [value, onChange] = useState(new Date());
     const definirdata = () => { 
@@ -158,7 +160,7 @@ const ConfigBody = () => {
                     </li>
                     <li className="dropdown">
                     <a className='nav-link menu-title'
-                    onClick={() => navigate(`/mezap`)}
+                    onClick={() => navigate(`/mezap/home/${data}`)}
                     >
                         <i><HomeIcon/></i>
                         <span>Home</span>
@@ -166,7 +168,7 @@ const ConfigBody = () => {
                     </li>
                     <li className="dropdown">
                     <a className="nav-link menu-title"
-                    onClick={() => navigate(`/mezap/campanhas`)}
+                    onClick={() => navigate(`/mezap/campanhas/${data}`)}
                     >
                         <i><BusinessCenterIcon/></i>
                         <span>Campanhas</span>
@@ -174,7 +176,7 @@ const ConfigBody = () => {
                     </li>
                     <li className="dropdown">
                     <a className="nav-link menu-title active"
-                    onClick={() => navigate(`/mezap/sett`)}
+                    onClick={() => navigate(`/mezap/sett/${data}`)}
                     >
                         <i><SettingsIcon/></i>
                         <span>Configurações</span>
@@ -195,10 +197,10 @@ const ConfigBody = () => {
                   <ul className="breadcrumb">
                     <li className="breadcrumb-item"><a
                     className='listabr active' 
-                    onClick={() => navigate(`/mezap`)}
+                    onClick={() => navigate(`/mezap/home${data}`)}
                     >Home</a></li>
                     <li className="breadcrumb-item active"><a
-                    onClick={() => navigate(`/mezap/sett`)}
+                    onClick={() => navigate(`/mezap/sett/${data}`)}
                     className='listabr'
                     >Configurações</a></li>
                   </ul>
@@ -206,17 +208,17 @@ const ConfigBody = () => {
               </div>
             </div>
         </div>
-        <div class="abas"></div>
-        <div class="container-fluid">
-            <div class="row">
-              <div class="col-sm-12">
-                <div class="card">
-                  <div class="stepwizard">
-                    <div class="stepwizard-row setup-panel">
-                      <div class="stepwizard-step"><a class="btn btn-primary flex1" id='configura' onClick={irConfig}><SettingsIcon/> Configurações Gerais</a></div>
-                      <div class="stepwizard-step"><a class="btn btn-light flex1" id='menssage' onClick={irMessage}><ContactsIcon/> Usuários</a></div>
-                      <div class="stepwizard-step"><a class="btn btn-light flex1" id='ctt' onClick={irContato}><BusinessIcon/> Empresas</a></div>
-                      <div class="stepwizard-step"><a class="btn btn-light flex1" id='user' onClick={irUser}><PersonPinIcon/> Perfil de Usuário</a></div>
+        <div className="abas"></div>
+        <div className="container-fluid">
+            <div className="row">
+              <div className="col-sm-12">
+                <div className="card">
+                  <div className="stepwizard">
+                    <div className="stepwizard-row setup-panel">
+                      <div className="stepwizard-step"><a className="btn btn-primary flex1" id='configura' onClick={irConfig}><SettingsIcon/> Configurações Gerais</a></div>
+                      <div className="stepwizard-step"><a className="btn btn-light flex1" id='menssage' onClick={irMessage}><ContactsIcon/> Usuários</a></div>
+                      <div className="stepwizard-step"><a className="btn btn-light flex1" id='ctt' onClick={irContato}><BusinessIcon/> Empresas</a></div>
+                      <div className="stepwizard-step"><a className="btn btn-light flex1" id='user' onClick={irUser}><PersonPinIcon/> Perfil de Usuário</a></div>
                     </div>
                   </div>
 
@@ -226,7 +228,7 @@ const ConfigBody = () => {
                     <div className='separador'>
                         <h1>Usuários</h1>
                     </div>
-                    <div class="card-body none ativo" id='config'>
+                    <div className="card-body none ativo" id='config'>
                     <br/>
                     <div className='row'>
                       <div className='col-md-6'>
@@ -254,7 +256,7 @@ const ConfigBody = () => {
                     <div className='separador'>
                         <h1>Empresas</h1>
                     </div>
-                     <div class="card-body none ativo" id='config'>
+                     <div className="card-body none ativo" id='config'>
                     <br/>
                     <div className='row'>
                       <div className='col-md-6'>
@@ -291,10 +293,10 @@ const ConfigBody = () => {
 
 
 
-                  <div class="card-body none" id='message'>
+                  <div className="card-body none" id='message'>
                     <div className='salvarcampanha2'>
                         <a className="nav-btn2" 
-                        onClick={() => navigate(`/mezap/sett/user`)}
+                        onClick={() => navigate(`/mezap/sett/user/${data}`)}
                         ><span>Cadastrar Usuário</span></a>
                         </div>
                         <div className="table-responsive">
@@ -317,7 +319,7 @@ const ConfigBody = () => {
 
 
 
-                  <div class="card-body none" id='contato'>
+                  <div className="card-body none" id='contato'>
                     <div className='salvarcampanha2'>
                       <a className="nav-btn2" ><span>Cadastrar Empresa</span></a>
                     </div>
@@ -335,7 +337,7 @@ const ConfigBody = () => {
                   </div>
 
 
-                  <div class="card-body none" id='usero'>
+                  <div className="card-body none" id='usero'>
                     <div className='salvarcampanha2'>
                       <a className="nav-btn2" ><span>Cadastrar Perfil</span></a>
                     </div>

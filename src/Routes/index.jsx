@@ -14,13 +14,13 @@ const AppRoutes = () => {
     return(
         <Router>
                 <Routes>
-                    <Route exact path='/mezap' element={<HomePage/>}/>
-                    <Route exact path='/mezap/campanhas' element={<CampanhasPage/>}/>
-                    <Route exact path='/mezap/campanhas/criar' element={<NewCampanhaPage/>}/>
-                    <Route exact path='/mezap/sett' element={<ConfigPage/>}/>
-                    <Route exact path='/mezap/sett/user' element={<User/>}/>
-                    <Route exact path='/mezap/sett/perfil' element={<Perfil/>}/>
-                    <Route exact path='/mezap/sett/empresa' element={<Empresa/>}/>
+                    <Route exact path='/mezap/home/:data' element={<HomePage/>}/>
+                    <Route exact path='/mezap/campanhas/:data' element={<CampanhasPage/>}/>
+                    <Route exact path='/mezap/campanhas/criar/:data/:userID' element={<NewCampanhaPage/>}/>
+                    <Route exact path='/mezap/sett/:data' element={<ConfigPage/>}/>
+                    <Route exact path='/mezap/sett/user/:data' element={<User/>}/>
+                    <Route exact path='/mezap/sett/perfil/:data' element={<Perfil/>}/>
+                    <Route exact path='/mezap/sett/empresa/:data' element={<Empresa/>}/>
                     <Route path='/' element={<LoginPage/>}/>
                     <Route path='*' element={<LoginPage/>}/>
                 </Routes>

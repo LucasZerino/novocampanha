@@ -4,10 +4,12 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import HomeIcon from '@mui/icons-material/Home';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import { useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 const HomeBody = () => {
 
     const navigate = useNavigate();
+    const { data } = useParams();
 
   return (
     <div className="page-body-wrapper sidebar-icon">
@@ -36,7 +38,7 @@ const HomeBody = () => {
                       </li>
                       <li className="dropdown">
                         <a className='nav-link menu-title active'
-                        onClick={() => navigate(`/mezap`)}
+                        onClick={() => navigate(`/mezap/home/${data}`)}
                         >
                             <i><HomeIcon/></i>
                             <span>Home</span>
@@ -44,7 +46,7 @@ const HomeBody = () => {
                       </li>
                       <li className="dropdown">
                       <a className="nav-link menu-title"
-                      onClick={() => navigate(`/mezap/campanhas`)}
+                      onClick={() => navigate(`/mezap/campanhas/${data}`)}
                       >
                             <i><BusinessCenterIcon/></i>
                             <span>Campanhas</span>
@@ -52,7 +54,7 @@ const HomeBody = () => {
                       </li>
                       <li className="dropdown">
                       <a className="nav-link menu-title"
-                      onClick={() => navigate(`/mezap/sett`)}
+                      onClick={() => navigate(`/mezap/sett/${data}`)}
                       >
                             <i><SettingsIcon/></i>
                             <span>Configurações</span>

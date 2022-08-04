@@ -6,10 +6,12 @@ import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import { useNavigate } from 'react-router-dom'
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import { useParams } from 'react-router-dom'
 
 const CadastroUser = () => {
 
   const navigate = useNavigate();
+  const { data } = useParams();
 
   return (
     <div className="page-body-wrapper sidebar-icon">
@@ -38,7 +40,7 @@ const CadastroUser = () => {
                   </li>
                   <li className="dropdown">
                     <a className='nav-link menu-title'
-                    onClick={() => navigate(`/mezap`)}
+                    onClick={() => navigate(`/mezap/home/${data}`)}
                     >
                         <i><HomeIcon/></i>
                         <span>Home</span>
@@ -46,7 +48,7 @@ const CadastroUser = () => {
                   </li>
                   <li className="dropdown">
                   <a className="nav-link menu-title"
-                  onClick={() => navigate(`/mezap/campanhas`)}
+                  onClick={() => navigate(`/mezap/campanhas/${data}`)}
                   >
                         <i><BusinessCenterIcon/></i>
                         <span>Campanhas</span>
@@ -54,14 +56,14 @@ const CadastroUser = () => {
                   </li>
                   <li className="dropdown">
                   <a className="nav-link menu-title active"
-                  onClick={() => navigate(`/mezap/sett`)}
+                  onClick={() => navigate(`/mezap/sett/${data}`)}
                   >
                         <i><SettingsIcon/></i>
                         <span>Configurações</span>
                     </a>
                     <ul className="nav-submenu menu-content">
                       <li><a className='lista active'
-                      onClick={() => navigate(`/mezap/sett/user`)}
+                      onClick={() => navigate(`/mezap/sett/user/${data}`)}
                       >Cadastro de usuário</a></li>
                     </ul>
                   </li>
@@ -80,10 +82,10 @@ const CadastroUser = () => {
                     <ul className="breadcrumb">
                       <li className="breadcrumb-item"><a
                       className='listabr active' 
-                      onClick={() => navigate(`/mezap`)}
+                      onClick={() => navigate(`/mezap/home/${data}`)}
                       >Home</a></li>
                       <li className="breadcrumb-item active"><a
-                      onClick={() => navigate(`/mezap/sett`)}
+                      onClick={() => navigate(`/mezap/sett/${data}`)}
                       className='listabr'
                       >Configurações</a></li>
                   </ul>
@@ -91,15 +93,15 @@ const CadastroUser = () => {
               </div>
             </div>
         </div>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="card">
+        <div className="container-fluid">
+            <div className="row">
+                <div className="col-sm-12">
+                    <div className="card">
                     <div className='none ativo' id='config'>
                         <div className='separador2'>
                             <h1>Cadastro de usuários</h1>
                         </div>
-                        <div class="card-body none ativo" id='config'>
+                        <div className="card-body none ativo" id='config'>
                         <br/>
                         <div className='row'>
                         <div className='col-md-6'>
@@ -127,7 +129,7 @@ const CadastroUser = () => {
                         <div className='separador'>
                             <h1>Empresas</h1>
                         </div>
-                        <div class="card-body none ativo" id='config'>
+                        <div className="card-body none ativo" id='config'>
                         <br/>
                         <div className='row'>
                             <div className='col-md-6'>
