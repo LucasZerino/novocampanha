@@ -15,7 +15,7 @@ const CadastroUser = () => {
 
   return (
     <div className="page-body-wrapper sidebar-icon">
-      <header className="main-nav">
+      <header className="main-nav" id='main-nav'>
         <div className="sidebar-user text-center">
             <a className="setting-primary">
                 <i className='onfigicon' data-feather="settings"><SettingsIcon sx={{ fontSize: 90 }} /></i>

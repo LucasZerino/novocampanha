@@ -13,6 +13,7 @@ import PersonPinIcon from '@mui/icons-material/PersonPin';
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import { useParams } from 'react-router-dom'
+import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact';
 
 const ConfigBody = () => {
 
@@ -135,7 +136,7 @@ const ConfigBody = () => {
 
   return (
     <div className="page-body-wrapper sidebar-icon">
-        <header className="main-nav">
+        <header className="main-nav" id='main-nav'>
         <div className="sidebar-user text-center">
             <a className="setting-primary">
                 <i className='onfigicon' data-feather="settings"><SettingsIcon sx={{ fontSize: 90 }} /></i>
@@ -178,8 +179,8 @@ const ConfigBody = () => {
                     <a className="nav-link menu-title active"
                     onClick={() => navigate(`/mezap/sett/${data}`)}
                     >
-                        <i><SettingsIcon/></i>
-                        <span>Configurações</span>
+                        <i><ConnectWithoutContactIcon/></i>
+                        <span>Integração</span>
                     </a>
                     </li>
                 </ul>

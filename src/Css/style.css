@@ -31066,7 +31066,7 @@ span.twitter-typeahead .tt-suggestion {
 
 
 /* Show the tooltip text when you mouse over the tooltip container */
-.btn:hover .tooltiptext {
+.btn2:hover .tooltiptext {
   display: inline;
 }
 

@@ -5,6 +5,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
+import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact'
 
 const HomeBody = () => {
 
@@ -13,7 +14,7 @@ const HomeBody = () => {
 
   return (
     <div className="page-body-wrapper sidebar-icon">
-         <header className="main-nav">
+         <header className="main-nav" id='main-nav'>
             <div className="sidebar-user text-center">
                 <a className="setting-primary">
                     <i className='onfigicon' data-feather="settings"><SettingsIcon sx={{ fontSize: 90 }} /></i>
@@ -56,8 +57,9 @@ const HomeBody = () => {
                       <a className="nav-link menu-title"
                       onClick={() => navigate(`/mezap/sett/${data}`)}
                       >
-                            <i><SettingsIcon/></i>
-                            <span>Configurações</span>
+                            
+ <i><ConnectWithoutContactIcon/></i>
+                        <span>Integração</span>
                         </a>
                       </li>
                     </ul>

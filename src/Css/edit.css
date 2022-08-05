@@ -1,7 +1,10 @@
 .tokeni{
     position: absolute;
+    display: none;
     left: 50%;
     transform: translateX(-50%);
+    top: 30%;
+    transform: translate(-50%);
     width: 500px;
     height: 350px;
     background: white;
@@ -12,12 +15,22 @@
     transition: all 0.5s linear;
   }
 
+  .tokeni.ativo{
+    display: block;
+  }
   
 .fechar{
     position: absolute;
     top: 10px;
     right: 10px;
     cursor: pointer;
+}
+
+.fechado2{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
 }
 
 .token-tit{
@@ -286,4 +299,23 @@
 
   .descri-inv{
     color: #808080;
+  }
+
+
+
+  input[type='radio']{
+    -webkit-appearance: checkbox;
+       -moz-appearance: checkbox;
+        -ms-appearance: checkbox;
+            appearance: checkbox
+  }
+
+  .main-nav .none{
+    display: none;
+  }
+
+  .final2{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
   }

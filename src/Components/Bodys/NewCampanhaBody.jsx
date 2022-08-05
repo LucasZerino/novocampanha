@@ -1,8 +1,9 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import dashboard1 from '../../Pages/assets/images/dashboard/1.png'
 import SettingsIcon from '@mui/icons-material/Settings';
 import HomeIcon from '@mui/icons-material/Home';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
+import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact'
 import { useNavigate } from 'react-router-dom'
 import SendToMobileIcon from '@mui/icons-material/SendToMobile';
 import ContactsIcon from '@mui/icons-material/Contacts';
@@ -12,9 +13,38 @@ import PageFooter from '../PageFooter'
 import EditIcon from '@mui/icons-material/Edit';
 import { useParams } from 'react-router-dom'
 import listaExemplo from '../../Assets/listaexemplo.xlsx'
+import CloseIcon from '@mui/icons-material/Close';
+import mezaplogo from '../../Assets/Images/mezap.png'
 
 const NewCampanhaBody = () => {
+  
+  const [item, setItem] = useState({linhas: []})
+  const [msgInicial, setMsgInicial] = useState();
+  const [msgFinal, setMsgFinal] = useState();
+  const [msgErr, setMsgErr] = useState();
+  const [colunas, setColunas] = useState();
 
+  
+  const buscarinte = () => {
+    const options = {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${data}`
+      }
+    };
+    
+    fetch('https://api.moorse.io/v2/whatsapp', options)
+      .then(response => response.json())
+      .then(response => setItem({linhas: response?.data?.content}))
+      .catch(err => console.error(err));
+
+
+
+      if(item?.linhas!=null && item?.linhas!=undefined){
+        setIntegracao(item?.linhas['0']?.id)
+      }
+  }
     const [nome, setNome] = useState();
     const [file, setFile] = useState()
     const { data } = useParams();
@@ -22,12 +52,10 @@ const NewCampanhaBody = () => {
     const navigate = useNavigate();
     const [dataE, setDataE] = useState('');
     const [value, setValue] = useState(new Date());
+    const [tipo, setTipo] = useState();
+    const [tempo, setTempo] = useState();
     const definirdata = () => { 
-      if((document.getElementById('datepiker').classList.value) === 'col-md-6 datepiker'){
         document.getElementById('datepiker').classList.add("ativado");
-      }else{
-        document.getElementById('datepiker').classList.remove("ativado");
-      }
     }
 
     function handleChange(event) {
@@ -97,121 +125,155 @@ const NewCampanhaBody = () => {
     }
 
 
-    console.log(value)
-const result1 = value.toString().slice(17, 24)
-console.log(result1)
-const dia = value.toString().slice(8, 10);
-const mes = value.toString().slice(4, 7);
-const ano = value.toString().slice(11, 15);
-const hora = value.toString().slice(15, 24);
+    const [integracao, setIntegracao] = useState('');
+const [timePick, SetTimePick] = useState('');
 
-if(mes==='Jan'){
-  console.log("mes 1")
-  const mes2='01';
-  const teste = ano+'-'+mes2+'-'+dia+hora;
-console.log(teste)
-}else if(mes==='Feb'){
-  console.log("mes 2")
-  const mes2='02';
-  const teste = ano+'-'+mes2+'-'+dia+hora;
-console.log(teste)
-}else if(mes==='Mar'){
-  console.log("mes 3")
-  const mes2='03';
-  const teste = ano+'-'+mes2+'-'+dia+hora;
-console.log(teste)
-}else if(mes==='Apr'){
-  console.log("mes 4")
-  const mes2='04';
-  const teste = ano+'-'+mes2+'-'+dia+hora;
-console.log(teste)
-}else if(mes==='May'){
-  console.log("mes 5")
-  const mes2='05';
-  const teste = ano+'-'+mes2+'-'+dia+hora;
-console.log(teste)
-}else if(mes==='Jun'){
-  console.log("mes 6")
-  const mes2='06';
-  const teste = ano+'-'+mes2+'-'+dia+hora;
-console.log(teste)
-}else if(mes==='Jul'){
-  console.log("mes 7")
-  const mes2='07';
-  const teste = ano+'-'+mes2+'-'+dia+hora;
-console.log(teste)
-}else if(mes==='Aug'){
-  console.log("mes 8")
-  const mes2='08';
-  const teste = ano+'-'+mes2+'-'+dia+hora;
-console.log(teste)
-}else if(mes==='Sep'){
-  console.log("mes 9")
-  const mes2='09';
-  const teste = ano+'-'+mes2+'-'+dia+hora;
-console.log(teste)
-}else if(mes==='Oct'){
-  console.log("mes 10")
-  const mes2='10';
-  const teste = ano+'-'+mes2+'-'+dia+hora;
-console.log(teste)
-}else if(mes==='Nov'){
-  console.log("mes 11")
-  const mes2='11';
-  const teste = ano+'-'+mes2+'-'+dia+hora;
-console.log(teste)
-}else if(mes==='Dec'){
-  console.log("mes 12")
-  const mes2='12';
-  const teste = ano+'-'+mes2+'-'+dia+hora;
-console.log(teste)
+const setarData2 =() => {
+  if(document.getElementById('datepiker').classList.length===3){
+    document.getElementById('datepiker').classList.remove("ativado");
+  }
+  const ano = value.getFullYear();
+  var hoje = value.getDate();
+  var mes = value.getMonth() + 1; 
+  if(mes<10){
+    mes ='0'+`${mes}`
+  }
+  if(hoje<10){
+    hoje = '0'+`${hoje}`
+  }
+  const hora = value.toString().slice(15, 24);
+  const mesCorreto = mes;
+  const atualDay = hoje;
+  const tempoSetado = `${ano}`+'-'+`${mesCorreto}`+'-'+`${atualDay}`+hora
+  SetTimePick(tempoSetado)
+  setTempo(tempoSetado)
 }
-
-
-
-
-
 
 
     const Criarcampanha = () => {
 
-      const myHeaders = new Headers();
-      myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlcmljb2Nlc2FyQHdlYmNrLmNvbS5iciIsImlkQ2xpZW50IjoiYTdjNGFkOWItZGVjZS00YmIwLTlhYzktOTMwNzc2Y2JmNGRhIiwiY3JlYXRlZCI6MTY1OTYzNDA4OTM5OSwicm9sZXMiOlsiUk9MRV9BUEkiLCJST0xFX0RBU0hCT0FSRCIsIlJPTEVfREFTSEJPQVJEX0dST1VQUyIsIlJPTEVfR1JPVVBTIiwiUk9MRV9JTlRFR1JBVElPTl9VU0VSIiwiUk9MRV9UUklBTCIsIlJPTEVfVVNFUlMiLCJST0xFX1dFQkhPT0siXSwiaWQiOjMwMCwiZXhwIjoxNjkxMTcwMDg5fQ.JO3G1S4V7rpYey6i262UdbD1zb7nyacckZMMpmyC6Y4iA9vDmiFwpWTGiu6P0NPwLmO5--qdCsedsCQsEfVdvQ");
+      var myHeaders = new Headers();
+myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlcmljb2Nlc2FyQHdlYmNrLmNvbS5iciIsImlkQ2xpZW50IjoiYTdjNGFkOWItZGVjZS00YmIwLTlhYzktOTMwNzc2Y2JmNGRhIiwiY3JlYXRlZCI6MTY1OTYzNDA4OTM5OSwicm9sZXMiOlsiUk9MRV9BUEkiLCJST0xFX0RBU0hCT0FSRCIsIlJPTEVfREFTSEJPQVJEX0dST1VQUyIsIlJPTEVfR1JPVVBTIiwiUk9MRV9JTlRFR1JBVElPTl9VU0VSIiwiUk9MRV9UUklBTCIsIlJPTEVfVVNFUlMiLCJST0xFX1dFQkhPT0siXSwiaWQiOjMwMCwiZXhwIjoxNjkxMTcwMDg5fQ.JO3G1S4V7rpYey6i262UdbD1zb7nyacckZMMpmyC6Y4iA9vDmiFwpWTGiu6P0NPwLmO5--qdCsedsCQsEfVdvQ");
 
-      const formdata = new FormData();
-      formdata.append("name", nome);
-      formdata.append("botname", "\"\"");
-      formdata.append("sendTemplate", "Olá, *#{name}*.\\\\n\\\\nMensagem de campanha teste para implementação de integração Moorse .\\\\n\\\\nConfirme o número de CNPJ da empresa teste *#{cnpj}*.");
-      formdata.append("finishTemplate", "");
-      formdata.append("errorTemplate", "");
-      formdata.append("integrationType", "WHATSAPP");
-      formdata.append("integrationId", "f27f1202-02fd-431a-8ce1-7b82cfd8bb85");
-      formdata.append("startDate");
-      formdata.append("mailing", file);
-      formdata.append("type", "NOTIFICATION");
-      formdata.append("mailingLayout", "name;cnpj");
-      formdata.append("clientId", userID);
+var formdata = new FormData();
+formdata.append("name", nome);
+formdata.append("botname", "\"\"");
+formdata.append("sendTemplate", msgInicial);
+formdata.append("finishTemplate", msgFinal);
+formdata.append("errorTemplate", msgErr);
+formdata.append("integrationType", "WHATSAPP");
+formdata.append("integrationId", integracao);
+formdata.append("startDate", tempo);
+formdata.append("mailing", file);
+formdata.append("type", tipo);
+formdata.append("mailingLayout", colunas);
+formdata.append("clientId", "a7c4ad9b-dece-4bb0-9ac9-930776cbf4da");
 
-      const requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: formdata,
-        redirect: 'follow'
-      };
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body: formdata,
+  redirect: 'follow'
+};
 
-      fetch("https://api-front.moorse.io/campaign-service/api/v1/campaigns", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
-
+fetch("https://api-front.moorse.io/campaign-service/api/v1/campaigns", requestOptions)
+  .then(response => response.text())
+  .then(result => console.log(result))
+  .catch(error => console.log('error', error));
 
           }
 
 
 
+useEffect(() => {
+  buscarinte()
+  setTipo('NPS')
+  setMsgInicial('Olá, #{username}.\n\nGostaríamos de sua participação em nosso NPS referente aos serviços de #{service} prestados por nós, Associação Pensar Clube Web à #{client}\n\nO NPS, consiste em apenas uma pergunta:\n\nQual é a probabilidade de você recomendar esta empresa para um amigo ou colega?\n\n👎🏻 ☹️ 0 1 2 3 4 5 6 7 8 9 10 👍🏻 😀\n\nAté breve')
+  setMsgFinal('#{username}, muito obrigado por colaborar, sua opinião é muito importante para nós 🤗\n\nQue a sua experiência seja cada vez melhor com a Associação Pensar Clube Web!\n\nAté breve 🤝')
+  setMsgErr('Ops... algo deu errado😕\n\nA nota do NPS deve ser de 0 a 10')
+  setColunas('name;cnpj')
+},[])
+
+useEffect(() => {
+  setarData2();
+  Trocar();
+},[value])
+
+
+const Trocar = () =>{
+  const novo = document.getElementById('tempo231').value
+  setTempo(novo)
+}
+
+const setarData = () => {
+  if(document.getElementById('datepiker').classList.length===3){
+    document.getElementById('datepiker').classList.remove("ativado");
+  }
+  const ano = value.getFullYear();
+  var hoje = value.getDate();
+  var mes = value.getMonth() + 1; 
+  if(mes<10){
+    mes ='0'+`${mes}`
+  }
+  if(hoje<10){
+    hoje = '0'+`${hoje}`
+  }
+  const hora = ' 23:59:00';
+  const mesCorreto = mes;
+  const atualDay = hoje;
+  const tempoSetado = `${ano}`+'-'+`${mesCorreto}`+'-'+`${atualDay}`+hora
+  SetTimePick(tempoSetado)
+  setTempo(tempoSetado)
+}
+
+const closeMsg1 = () => {
+  document.getElementById('tokeni').classList.remove("ativo");
+}
+
+const closeMsg2 = () => {
+  document.getElementById('tokeni2').classList.remove("ativo");
+}
+
+const closeMsg3 = () => {
+  document.getElementById('tokeni3').classList.remove("ativo");
+}
+
+const iniciarEdit = () => {
+  if(document.getElementById('tokeni2').classList.length===2){
+    document.getElementById('tokeni2').classList.remove("ativo");
+  }
+  if(document.getElementById('tokeni3').classList.length===2){
+    document.getElementById('tokeni3').classList.remove("ativo");
+  }
+  document.getElementById('tokeni').classList.add("ativo");
+}
+
+const iniciarFinal = () => {
+  if(document.getElementById('tokeni').classList.length===2){
+    document.getElementById('tokeni').classList.remove("ativo");
+  }
+  if(document.getElementById('tokeni3').classList.length===2){
+    document.getElementById('tokeni3').classList.remove("ativo");
+  }
+  document.getElementById('tokeni2').classList.add("ativo");
+}
+
+const iniciarErr = () => {
+  if(document.getElementById('tokeni').classList.length===2){
+    document.getElementById('tokeni').classList.remove("ativo");
+  }
+  if(document.getElementById('tokeni2').classList.length===2){
+    document.getElementById('tokeni2').classList.remove("ativo");
+  }
+  document.getElementById('tokeni3').classList.add("ativo");
+}
+
+console.log(integracao)
+console.log(userID)
+
   return (
     <div className="page-body-wrapper sidebar-icon">
-      <header className="main-nav">
+      <header className="main-nav" id='main-nav'>
         <div className="sidebar-user text-center">
             <a className="setting-primary">
                 <i className='onfigicon' data-feather="settings"><SettingsIcon sx={{ fontSize: 90 }} /></i>
@@ -262,8 +324,9 @@ console.log(teste)
                   <a className="nav-link menu-title"
                   onClick={() => navigate(`/mezap/sett/${data}`)}
                   >
-                        <i><SettingsIcon/></i>
-                        <span>Configurações</span>
+                        
+ <i><ConnectWithoutContactIcon/></i>
+                        <span>Integração</span>
                     </a>
                   </li>
                 </ul>
@@ -273,6 +336,195 @@ console.log(teste)
           </nav>
       </header>
       <div className='page-body'>
+
+      <div className="bodywpp" id='tokeni'>
+      <CloseIcon 
+                        className='fechar'
+                        onClick={closeMsg1}/>
+        <div className="containerwpp">
+            <div className="rightSide">
+                <div className="header">
+                    <div className="imgText">
+                        <div className="userimg">
+                            <img src={mezaplogo} alt="" className="cover"/>
+                        </div>
+                        <h4 className='mezaptit'>Mezap <br/><span>online</span></h4>
+                    </div>
+                    <ul className="nav_icons">
+                        <li><ion-icon name="search-outline"></ion-icon></li>
+                        <li><ion-icon name="ellipsis-vertical"></ion-icon></li>
+                    </ul>
+                </div>    
+                <div className="chatbox">
+                    <div className="message my_msg">
+                        <p>{msgInicial} <br/><span>12:18</span></p>
+                    </div>
+                    <div className="message friend_msg">
+                        <p>   <span  className='textocampanha'>Abaixo você pode editar a mensagem que será enviada ao seu cliente quando a campanha for finalizada.
+                            <br/>Caso você queira personalizar suas mensagens poderá digitar #{"{coluna_da_tabela_excel}"}, essa informação será substituída pelo valor inserido nela, por exemplo, ao utilizar #{"{client}"} no lugar dessa variável vai aparecer o <strong>nome do cliente</strong> em seu lugar na mensagem.
+                            <br/>Também é possível que você formate os textos das suas mensagens. <strong>Negrito: </strong>*texto*, Itálico: _text_, Traçado: ~texto~
+                        </span><span>12:15</span></p>
+                    </div>
+                </div>
+                
+          
+                <div className="chat_input">
+                    <ion-icon name="happy-outline"></ion-icon>
+             
+                    <textarea type="text" 
+                    placeholder="Escreva uma mensagem"
+                    value={msgInicial}
+                    className='inputmsg'
+                    onChange={(e)=> setMsgInicial(e.target.value)}
+                    >
+
+                    </textarea>
+                    <a className="nav-btn2" 
+                      onClick={closeMsg1}
+                      ><span>Salvar</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+   
+
+
+
+    
+    <div className="bodywpp" id='tokeni2'>
+                    <CloseIcon 
+                                      className='fechar'
+                                      onClick={closeMsg2}/>
+                      <div className="containerwpp">
+                          <div className="rightSide">
+                              <div className="header">
+                                  <div className="imgText">
+                                      <div className="userimg">
+                                          <img src={mezaplogo} alt="" className="cover"/>
+                                      </div>
+                                      <h4 className='mezaptit'>Mezap <br/><span>online</span></h4>
+                                  </div>
+                                  <ul className="nav_icons">
+                                      <li><ion-icon name="search-outline"></ion-icon></li>
+                                      <li><ion-icon name="ellipsis-vertical"></ion-icon></li>
+                                  </ul>
+                              </div>
+                  
+                    
+                              <div className="chatbox">
+                                  <div className="message my_msg">
+                                      <p>{msgFinal} <br/><span>12:18</span></p>
+                                  </div>
+                                  <div className="message friend_msg">
+                                      <p>   <span  className='textocampanha'>Abaixo você pode editar a mensagem que será enviada ao seu cliente quando a campanha for iniciada.
+                                          <br/>Caso você queira personalizar suas mensagens poderá digitar #{"{coluna_da_tabela_excel}"}, essa informação será substituída pelo valor inserido nela, por exemplo, ao utilizar #{"{client}"} no lugar dessa variável vai aparecer o <strong>nome do cliente</strong> em seu lugar na mensagem.
+                                          <br/>Também é possível que você formate os textos das suas mensagens. <strong>Negrito: </strong>*texto*, Itálico: _text_, Traçado: ~texto~
+                                      </span><span>12:15</span></p>
+                                  </div>
+                              </div>
+                              
+                        
+                              <div className="chat_input">
+                                  <ion-icon name="happy-outline"></ion-icon>
+                          
+                                  <textarea type="text" 
+                                  placeholder="Escreva uma mensagem"
+                                  value={msgFinal}
+                                  className='inputmsg'
+                                  onChange={(e)=> setMsgFinal(e.target.value)}
+                                  >
+
+                                  </textarea>
+                                  <a className="nav-btn2" 
+                                    onClick={closeMsg2}
+                                    ><span>Salvar</span></a>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                  
+    <div className="bodywpp" id='tokeni3'>
+                    <CloseIcon 
+                                      className='fechar'
+                                      onClick={closeMsg3}/>
+                      <div className="containerwpp">
+                          <div className="rightSide">
+                              <div className="header">
+                                  <div className="imgText">
+                                      <div className="userimg">
+                                          <img src={mezaplogo} alt="" className="cover"/>
+                                      </div>
+                                      <h4 className='mezaptit'>Mezap <br/><span>online</span></h4>
+                                  </div>
+                                  <ul className="nav_icons">
+                                      <li><ion-icon name="search-outline"></ion-icon></li>
+                                      <li><ion-icon name="ellipsis-vertical"></ion-icon></li>
+                                  </ul>
+                              </div>
+                  
+                    
+                              <div className="chatbox">
+                                  <div className="message my_msg">
+                                      <p>{msgFinal} <br/><span>12:18</span></p>
+                                  </div>
+                                  <div className="message friend_msg">
+                                      <p>   <span  className='textocampanha'>Abaixo você pode editar a mensagem que será enviada ao seu cliente quando a resposta não for uma opção solicitada.
+                                          <br/>Caso você queira personalizar suas mensagens poderá digitar #{"{coluna_da_tabela_excel}"}, essa informação será substituída pelo valor inserido nela, por exemplo, ao utilizar #{"{client}"} no lugar dessa variável vai aparecer o <strong>nome do cliente</strong> em seu lugar na mensagem.
+                                          <br/>Também é possível que você formate os textos das suas mensagens. <strong>Negrito: </strong>*texto*, Itálico: _text_, Traçado: ~texto~
+                                      </span><span>12:15</span></p>
+                                  </div>
+                              </div>
+                              
+                        
+                              <div className="chat_input">
+                                  <ion-icon name="happy-outline"></ion-icon>
+                          
+                                  <textarea type="text" 
+                                  placeholder="Escreva uma mensagem"
+                                  value={msgErr}
+                                  className='inputmsg'
+                                  onChange={(e)=> setMsgErr(e.target.value)}
+                                  >
+
+                                  </textarea>
+                                  <a className="nav-btn2" 
+                                    onClick={closeMsg3}
+                                    ><span>Salvar</span></a>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
         <div className='container-fluid dashboard-default-sec'>
             <div className="page-header">
               <div className="row">
@@ -305,7 +557,7 @@ console.log(teste)
                     <div className="stepwizard-row setup-panel">
                       <div className="stepwizard-step"><a className="btn btn-primary flex1" id='configura' onClick={irConfig}><SettingsIcon/> Configurações</a></div>
                       <div className="stepwizard-step"><a className="btn btn-light flex1" id='menssage' onClick={irMessage}><SendToMobileIcon/> Mensagem</a></div>
-                      <div className="stepwizard-step"><a className="btn btn-light flex1" id='ctt' onClick={irContato}><ContactsIcon/> Contatos</a></div>
+                      <div className="stepwizard-step fora"><a className="btn btn-light flex1" id='ctt' onClick={irContato}><ContactsIcon/> Contatos</a></div>
                     </div>
                   </div>
 
@@ -328,12 +580,17 @@ console.log(teste)
                         <div className='rowmanual'>
                         <div className='rowmanual2'>
                               <label className='form-label checkbox'>Iniciar agora</label>
-                              <input type="checkbox" id="iniciar"/>
+                              <input id='red' type='radio' onClick={setarData} name='selection'></input>
                         </div>
                         <div className='rowmanual2'>
                               <label className='form-label checkbox'>Definir data</label>
-                              <input type="checkbox" id="definir" onClick={definirdata}/>
+                              <input id='green' onClick={definirdata} type='radio' name='selection'></input>
                         </div>
+                        <input className='form-control'
+                        value={timePick}
+                        type='hidden'
+                        id='tempo231'
+                        ></input>
                       </div>
                       </div>
                       <div className='col-md-6 datepiker' id='datepiker'>
@@ -344,19 +601,36 @@ console.log(teste)
                     </div>
                     <br/>
                     <label className="form-label">Tipo da campanha</label>
-                    <input type='text' 
-                    name='lista' 
-                    id='lista'
-                    className="form-control"
-                    />
+                    <select className='form-control'
+                       value={tipo}
+                       onChange={e => setTipo(e.target.value)}
+                     >
+                      <option value='NPS'>Campaha NPS</option>
+                      <option value='NOTIFICATION'>Capanha de notificação</option>
+                     </select>
                     <br/>
                      <label className="form-label">Integração</label>
-                    <input type='text' 
-                    name='lista' 
-                    id='lista'
-                    className="form-control"
-                    />
+                     <select className='form-control'
+                       value={integracao}
+                       onChange={e => setIntegracao(e.target.value)}
+                     >
+                     {
+                        item.linhas!=null && item.linhas.map((item)=>(
+                        <option
+                        value={item.id}
+                        key={item.name}
+                        >{item.name}</option>
+                      ))
+                    }
+                     </select>
                     <br/>
+                    <label className="form-label">Colunas da Tabela</label>
+                    <input className='form-control'
+                    value={colunas}
+                    onChange={e => setColunas(e.target.value)}
+                    >
+                    </input>
+                    <br></br>
                   <div className='row'>
                     <div className='col-md-6'>
                       <label className="form-label">Envie a lista</label>
@@ -375,10 +649,10 @@ console.log(teste)
                       </div>
                     </div>
       
-                    <div className='salconstcampanha'>
+                    <div className='salvarcampanha'>
                       <a className="nav-btn2" 
-                      onClick={Criarcampanha}
-                      ><span>Salconst Campanha</span></a>
+                      onClick={irMessage}
+                      ><span>Próximo</span></a>
                     </div>
                   </div>
                   </div>
@@ -391,22 +665,24 @@ console.log(teste)
                   <div className="card-body none" id='message'>
                     <div className='mensagem'>
                       <h6>Mensagem para iniciar campanha</h6>
-                      <a className="nav-btn2" ><span>Editar</span></a>
+                      <a onClick={iniciarEdit} className="nav-btn2" ><span>Editar</span></a>
                     </div>
                     <br/>
                     <div className='mensagem'>
                       <h6>Mensagem de finalização da campanha</h6>
-                      <a className="nav-btn2" ><span>Editar</span></a>
+                      <a onClick={iniciarFinal}className="nav-btn2" ><span>Editar</span></a>
                     </div>
                       <br/>
                     <div className='mensagem'>
                       <h6>Mensagem caso a resposta do cliente não bata com a validação da pergunta</h6>
-                      <a className="nav-btn2" ><span>Editar</span></a>
+                      <a onClick={iniciarErr} className="nav-btn2" ><span>Editar</span></a>
                     </div>
                     <br/>
                     <br/>
-                    <div className='salconstcampanha'>
-                      <a className="nav-btn2" ><span>Salconst Alterações</span></a>
+                    <div className='salvarcampanha'>
+                      <a className="nav-btn2" 
+                      onClick={Criarcampanha}
+                      ><span>Criar campanha</span></a>
                     </div>
                   </div>
 
@@ -416,7 +692,7 @@ console.log(teste)
 
 
                   <div className="card-body none" id='contato'>
-                    <div className='salconstcampanha2'>
+                    <div className='salvarcampanha2'>
                       <a className="nav-btn2" ><span>Cadastrar contato</span></a>
                     </div>
                     <div className="table-responsive">

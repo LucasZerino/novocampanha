@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import dashboard1 from '../../Pages/assets/images/dashboard/1.png'
 import SettingsIcon from '@mui/icons-material/Settings';
+import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact'
 import HomeIcon from '@mui/icons-material/Home';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import { useNavigate } from 'react-router-dom'
 import campanhaicon from '../../Assets/Icons/campanha.png'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
+import playico from '../../Assets/Icons/play-button.png'
 
 const CampanhaBody = () => {
 
@@ -16,6 +18,32 @@ const CampanhaBody = () => {
   const navigate = useNavigate();
   const [item, setItem] = useState({linhas: []})
 
+  document.querySelectorAll("img").forEach(function(img){
+    img.addEventListener("click", function(event) {
+    const el = event.target || event.srcElement;
+    const idCampanha = el.id;
+    if(el.className==='playico'){
+        start(idCampanha);
+    }
+})})
+
+const start = (idCampanha) => {
+  console.log(idCampanha)
+  var myHeaders = new Headers();
+myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsdWNhc21hdGhldXNhcmF1am80OEBnbWFpbC5jb20iLCJpZENsaWVudCI6IjVjNGE3Yjc2LTBmMWYtNDYzOC05MmE4LWMwNTMwYzA3MjBjOCIsImNyZWF0ZWQiOjE2NTk2MjExMTk1MTMsInJvbGVzIjpbIlJPTEVfQVBJIiwiUk9MRV9EQVNIQk9BUkQiLCJST0xFX0RBU0hCT0FSRF9HUk9VUFMiLCJST0xFX0dST1VQUyIsIlJPTEVfSU5URUdSQVRJT05fVVNFUiIsIlJPTEVfVFJJQUwiLCJST0xFX1VTRVJTIiwiUk9MRV9XRUJIT09LIl0sImlkIjozMjAsImV4cCI6MTY5MTE1NzExOX0.Pd6xmvdFewFZSKF4D9srNKw1bskzyzvA12uO4C7DfRLHIX56uO1rB0GGffXuiD7jujRch1DaG0XcvrbY9F9RyA");
+
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  redirect: 'follow'
+};
+
+fetch(`https://api-front.moorse.io/campaign-service/api/v1/campaigns/${idCampanha}/start-now`, requestOptions)
+  .then(response => response.text())
+  .then(result => console.log(result))
+  .catch(error => console.log('error', error));
+
+}
 
 const buscarCampanhas = () => {
   var axios = require('axios');
@@ -49,10 +77,9 @@ useEffect(() => {
   setUserId(respo?.data?.content['0'].id)
 },[respo])
 
-
   return (
     <div className="page-body-wrapper sidebar-icon">
-      <header className="main-nav">
+      <header className="main-nav" id='main-nav'>
         <div className="sidebar-user text-center">
             <a className="setting-primary">
                 <i className='onfigicon' data-feather="settings"><SettingsIcon sx={{ fontSize: 90 }} /></i>
@@ -103,8 +130,8 @@ useEffect(() => {
                   <a className="nav-link menu-title"
                   onClick={() => navigate(`/mezap/sett/${data}`)}
                   >
-                        <i><SettingsIcon/></i>
-                        <span>Configurações</span>
+                         <i><ConnectWithoutContactIcon/></i>
+                        <span>Integração</span>
                     </a>
                   </li>
                 </ul>
@@ -153,7 +180,6 @@ useEffect(() => {
                                     <th><strong>Nome</strong></th>
                                     <th><strong>Data de Criação</strong></th>
                                     <th><strong>Data de Início</strong></th>
-                                    <th><strong>Data de Término</strong></th>
                                     <th><strong>Tipo da integração</strong></th>
                                     <th><strong>Status</strong></th>
                                     <th><strong>Ações</strong></th>
@@ -166,7 +192,6 @@ useEffect(() => {
                                         <td><strong>{item.name}</strong></td>
                                           <td><strong>{item.creationDate}</strong></td>
                                           <td><strong>{item.startDate}</strong></td>
-                                          <td><strong>{item.finishDate}</strong></td>
                                           <td> <span
                                               className='badge light ' 
                                               style={{color: "white",
@@ -177,14 +202,18 @@ useEffect(() => {
                                               <span
                                               className='badge light ' 
                                               style={{color: item.status == 'ATIVO' ? "white" : "white",
-                                                  backgroundColor: item.status == 'ATIVO' ? "#1b4c43" : "#d22d3d",
+                                                  backgroundColor: item.status == 'FINISHED' ? "#6e6b6c" : "#1b4c43",
                                           }}
                                               >
                                               {item.status}
                                               </span>
                                           </td>
                                           <td>
-                                         
+                                          <div className="d-flex" id='fora'>  
+                                            <a
+                                            className="btn2 btn-primary shadow btn-xs sharp mr-1"
+                                            ><img className='playico' id={item.id} src={playico}/><div className="fechado"><span className="tooltiptext">Iniciar Campanha</span></div></a>
+                                          </div>
                                           </td>
                                       </tr>
                                   ))
